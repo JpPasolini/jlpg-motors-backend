@@ -65,14 +65,15 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 // Se for criar (POST), editar (PUT) ou deletar (DELETE)...
                 if (method == HttpMethod.POST || method == HttpMethod.PUT || method == HttpMethod.DELETE) {
 
-                    // CASO EXPEDIENTE: Se a requisição for para os favoritos
-                    if (path.contains("/favorites")) {
+                    // 🔓 ROTAS PÚBLICAS DO CLIENTE: Favoritos OU Negociações Normais (Sem ser painel admin)
+                    if (path.contains("/favorites") || (path.contains("/negotiations") && !path.contains("/admin"))) {
                         // Permite se for USER ou se for ADMIN. Se não for nenhum, barra.
                         if (!userRole.contains("ADMIN") && !userRole.contains("USER")) {
-                            return onError(exchange, "Acesso negado: Permissão insuficiente para favoritar", HttpStatus.FORBIDDEN);
+                            return onError(exchange, "Acesso negado: Permissão insuficiente para esta ação", HttpStatus.FORBIDDEN);
                         }
                     }
-                    // CASO RESTRITO: Qualquer outra rota (Gerenciamento de veículos, etc.)
+
+                    // 🔒 ROTAS EXCLUSIVAS DE ADMIN: (Cadastro de carros, painel /admin de chats, etc.)
                     else {
                         // Exige estritamente ser ADMIN
                         if (!userRole.contains("ADMIN")) {
