@@ -1,7 +1,8 @@
 CREATE TABLE vehicles (
-    id BIGSERIAL PRIMARY KEY,
-    brand VARCHAR(100) NOT NULL,
-    model VARCHAR(100) NOT NULL,
-    year_model INTEGER NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
+    id UUID PRIMARY KEY,
+    brand VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year_model INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    plate VARCHAR(10) NOT NULL UNIQUE
 );

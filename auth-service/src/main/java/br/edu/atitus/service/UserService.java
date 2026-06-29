@@ -26,6 +26,15 @@ public class UserService {
             throw new RuntimeException("E-mail já está em uso!");
         }
 
+        // --- AJUSTE DA ROLE ---
+        // Se a role vier vazia no JSON do request, força o padrão 'USER'
+        if (user.getRole() == null || user.getRole().trim().isEmpty()) {
+            user.setRole("USER");
+        } else {
+            // Garante que será salva limpa e em maiúsculo (ex: "ADMIN")
+            user.setRole(user.getRole().trim().toUpperCase());
+        }
+
         // Criptografa a senha antes de persistir no banco
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -41,7 +50,7 @@ public class UserService {
             throw new RuntimeException("Usuário ou senha inválidos!");
         }
 
-        // Se passar nas duas validações, gera e retorna o Token JWT
+        // Se passar nas duas validações, gera e retorna o Token JWT carregando a role modificada
         return jwtService.generateToken(user);
     }
 }

@@ -10,7 +10,6 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    // Chave secreta longa obrigatória para assinar o token JWT com segurança
     private final String SECRET_KEY = "minha_chave_secreta_muito_segura_e_longa_para_o_jwt_jlpg_motors";
 
     private SecretKey getSigningKey() {
@@ -18,10 +17,14 @@ public class JwtService {
     }
 
     public String generateToken(UserEntity user) {
+        // Pega a role do usuário. Se o seu método retornar um Enum, use user.getRole().name()
+        String userRole = user.getRole() != null ? user.getRole().toString() : "USER";
+
         return Jwts.builder()
                 .subject(user.getUsername())
+                .claim("role", userRole) // INJETA A ROLE DENTRO DO TOKEN JWT!
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 86400000)) // Expira em 24 horas
+                .expiration(new Date(System.currentTimeMillis() + 86400000)) // 24 horas
                 .signWith(getSigningKey())
                 .compact();
     }

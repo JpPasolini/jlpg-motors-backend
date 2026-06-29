@@ -1,0 +1,7 @@
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\AuthServiceApplication.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\config\SecurityConfig.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\controller\AuthController.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\model\UserEntity.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\repository\UserRepository.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\service\JwtService.java
+C:\Users\gusta\Documents\jlpg-motors-backend\auth-service\src\main\java\br\edu\atitus\service\UserService.java

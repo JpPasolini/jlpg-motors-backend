@@ -6,10 +6,23 @@ spring:
     name: gateway-server
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true # Faz o gateway mapear rotas automaticamente baseadas no nome do serviço no Eureka
-          lower-case-service-id: true # Transforma AUTH-SERVICE em /auth-service/**
+      routes:
+        # Rota de Autenticação (LIVRE, não precisa de Token para logar/cadastrar!)
+        - id: auth-service-route
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            - StripPrefix=1
+
+        # Rota de Veículos (PROTEGIDA pelo nosso Filtro JWT!)
+        - id: vehicle-service-route
+          uri: lb://VEHICLE-SERVICE
+          predicates:
+            - Path=/vehicle-service/**
+          filters:
+            - StripPrefix=1
+            - JwtAuthenticationFilter # Aplica a validação que acabamos de programar!
 
 eureka:
   client:

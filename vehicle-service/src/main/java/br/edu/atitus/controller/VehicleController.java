@@ -1,12 +1,12 @@
 package br.edu.atitus.controller;
 
-import br.edu.atitus.model.Vehicle;
+import br.edu.atitus.model.VehicleEntity;
 import br.edu.atitus.service.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/vehicles")
@@ -19,16 +19,36 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Vehicle>> getAllVehicles() {
-        List<Vehicle> list = vehicleService.findAll();
+    public ResponseEntity<List<VehicleEntity>> getAllVehicles() {
+        List<VehicleEntity> list = vehicleService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @PostMapping
-    public ResponseEntity<?> createVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<?> createVehicle(@RequestBody VehicleEntity vehicle) {
         try {
-            Vehicle savedVehicle = vehicleService.save(vehicle);
+            VehicleEntity savedVehicle = vehicleService.save(vehicle);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedVehicle);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateVehicle(@PathVariable UUID id, @RequestBody VehicleEntity vehicle) {
+        try {
+            VehicleEntity updated = vehicleService.update(id, vehicle);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteVehicle(@PathVariable UUID id) {
+        try {
+            vehicleService.delete(id);
+            return ResponseEntity.noContent().build(); // Retorna 244 No Content em caso de sucesso
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
