@@ -20,14 +20,14 @@ spring:
             allowCredentials: false
       routes:
         - id: auth-service-route
-          uri: https://magnificent-growth-production-259c.up.railway.app
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth-service/**
           filters:
             - StripPrefix=1
 
         - id: vehicle-service-get-route
-          uri: https://diplomatic-reprieve-production-c2b4.up.railway.app
+          uri: lb://VEHICLE-SERVICE
           predicates:
             - Path=/vehicle-service/**
             - Method=GET
@@ -35,7 +35,7 @@ spring:
             - StripPrefix=1
 
         - id: vehicle-service-write-route
-          uri: https://diplomatic-reprieve-production-c2b4.up.railway.app
+          uri: lb://VEHICLE-SERVICE
           predicates:
             - Path=/vehicle-service/**
           filters:
@@ -43,7 +43,7 @@ spring:
             - JwtAuthenticationFilter
 
         - id: customer-service-route
-          uri: https://cheerful-adaptation-production-c669.up.railway.app
+          uri: lb://CUSTOMER-SERVICE
           predicates:
             - Path=/customer-service/**
           filters:
@@ -51,4 +51,6 @@ spring:
 
 eureka:
   client:
-    enabled: false
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
